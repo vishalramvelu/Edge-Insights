@@ -1,0 +1,682 @@
+<!--
+dashboard.html
+-->
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Poker Tracker{% endblock %}
+
+{% block head %}
+<style>
+    .analytics-tab.active {
+        color: rgb(79, 70, 229);
+        border-color: rgb(79, 70, 229);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    <!-- Stats Grid -->
+    <div id="statsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow p-6 animate-pulse">
+            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div class="h-8 bg-gray-200 rounded w-1/2 mt-4"></div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 animate-pulse">
+            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div class="h-8 bg-gray-200 rounded w-1/2 mt-4"></div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 animate-pulse">
+            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div class="h-8 bg-gray-200 rounded w-1/2 mt-4"></div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 animate-pulse">
+            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div class="h-8 bg-gray-200 rounded w-1/2 mt-4"></div>
+        </div>
+    </div>
+
+    <!-- Analytics Section -->
+    <div class="mt-8 bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold mb-4">Analytics</h3>
+
+        <!-- Analytics Navigation -->
+        <div class="border-b border-gray-200">
+            <nav class="flex space-x-4" aria-label="Analytics">
+                <button onclick="showAnalyticsTab('stakes')"
+                    class="analytics-tab border-b-2 px-4 py-2 text-sm font-medium text-indigo-600 border-indigo-600"
+                    role="tab">
+                    Stakes Analysis
+                </button>
+                <button onclick="showAnalyticsTab('location')"
+                    class="analytics-tab border-b-2 px-4 py-2 text-sm font-medium text-gray-500 border-transparent hover:border-gray-300"
+                    role="tab">
+                    Location Analysis
+                </button>
+                <button onclick="showAnalyticsTab('timing')"
+                    class="analytics-tab border-b-2 px-4 py-2 text-sm font-medium text-gray-500 border-transparent hover:border-gray-300"
+                    role="tab">
+                    Session Timing
+                </button>
+            </nav>
+        </div>
+
+        <!-- Analytics Content -->
+        <div class="mt-4">
+            <!-- Stakes Analysis -->
+            <div id="stakesAnalytics" class="analytics-content">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Stakes</th>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Win Rate %</th>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Total Profit</th>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Sessions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stakesStatsBody" class="bg-white divide-y divide-gray-200"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Location Analysis -->
+            <div id="locationAnalytics" class="analytics-content hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Location</th>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Total Profit</th>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Avg Profit/Session</th>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Total Sessions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="locationStatsBody" class="bg-white divide-y divide-gray-200"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Session Timing Analysis -->
+            <div id="timingAnalytics" class="analytics-content hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Duration</th>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Avg Profit</th>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Sessions</th>
+                                <th
+                                    class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    BB/Hour</th>
+                            </tr>
+                        </thead>
+                        <tbody id="timingStatsBody" class="bg-white divide-y divide-gray-200"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session History -->
+    <div class="bg-white rounded-lg shadow p-6 mt-8">
+        <h3 class="text-lg font-semibold mb-4">Session History</h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full" id="sessionTable">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Stakes</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Profit/Loss</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ELO
+                            Change</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Sessions.... -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Session Detail Modal -->
+<div id="sessionDetailModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50">
+    <div class="flex items-center justify-center min-h-screen px-4 py-6">
+        <div class="bg-white rounded-lg p-8 max-w-lg w-full relative">
+            <button onclick="hideSessionDetail()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-2xl font-semibold mb-6">Session Details</h2>
+            <div id="sessionDetailContent" class="space-y-4">
+                <!-- Session details.... -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Session Modal -->
+<div id="addSessionModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50">
+    <div class="flex items-center justify-center min-h-screen px-4 py-6">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full relative">
+            <h2 class="text-2xl font-semibold mb-6">Add New Session</h2>
+            <form id="sessionForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Date & Time</label>
+                    <input type="datetime-local" name="datetime" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Location</label>
+                    <input type="text" name="location" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Small Blind ($)</label>
+                        <input type="number" step="0.01" name="small_blind" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Big Blind ($)</label>
+                        <input type="number" step="0.01" name="big_blind" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Buy In ($)</label>
+                        <input type="number" step="0.01" name="buy_in" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Cash Out ($)</label>
+                        <input type="number" step="0.01" name="buy_out" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Duration (hours)</label>
+                    <input type="number" step="0.1" name="duration" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div class="flex justify-end space-x-4 mt-6">
+                    <button type="button" onclick="hideAddSession()"
+                        class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit" id="submitSessionBtn"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm font-medium hover:bg-indigo-700">
+                        Save Session
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // format currency
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+        }).format(amount);
+    };
+
+    const hideSessionDetail = () => {
+        document.getElementById('sessionDetailModal').classList.add('hidden');
+    };
+
+    const showAddSession = () => {
+        const modal = document.getElementById('addSessionModal');
+        const datetimeInput = document.querySelector('input[name="datetime"]');
+
+        if (datetimeInput) {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            datetimeInput.value = now.toISOString().slice(0, 16);
+        }
+
+        modal.classList.remove('hidden');
+    };
+
+    const hideAddSession = () => {
+        document.getElementById('addSessionModal').classList.add('hidden');
+        document.getElementById('sessionForm').reset();
+    };
+
+    // Analytics tab management
+    const showAnalyticsTab = (tab) => {
+        document.querySelectorAll('.analytics-tab').forEach(button => {
+            button.classList.remove('active', 'text-indigo-600', 'border-indigo-600');
+            button.classList.add('text-gray-500', 'border-transparent');
+        });
+
+        const activeButton = document.querySelector(`button[onclick="showAnalyticsTab('${tab}')"]`);
+        activeButton.classList.add('active', 'text-indigo-600', 'border-indigo-600');
+        activeButton.classList.remove('text-gray-500', 'border-transparent');
+
+        document.querySelectorAll('.analytics-content').forEach(content => {
+            content.classList.add('hidden');
+        });
+        document.getElementById(`${tab}Analytics`).classList.remove('hidden');
+    };
+
+    // Update stats grid
+    const updateStats = async () => {
+        try {
+            const response = await fetch('/api/stats');
+            const data = await response.json();
+
+            if (!data.modified) return;
+
+            const stats = data.data;
+            const statsGrid = document.getElementById('statsGrid');
+
+            statsGrid.innerHTML = `
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-sm font-medium text-gray-500">Total Profit/Loss</h3>
+                <p class="text-2xl font-semibold ${stats.total_profit >= 0 ? 'text-green-600' : 'text-red-600'}">
+                    ${formatCurrency(stats.total_profit)}
+                </p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-sm font-medium text-gray-500">Win Rate</h3>
+                <p class="text-2xl font-semibold">${stats.win_rate.toFixed(1)}%</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-sm font-medium text-gray-500">Total BB Won</h3>
+                <p class="text-2xl font-semibold">${stats.total_bb_won.toFixed(1)}</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-sm font-medium text-gray-500">Current ELO</h3>
+                <p class="text-2xl font-semibold">${stats.current_elo.toFixed(1)}</p>
+            </div>
+        `;
+        } catch (error) {
+            console.error('Error updating stats:', error);
+        }
+    };
+
+    // store session data with indexes
+    const updateSessionTable = async () => {
+        try {
+            const response = await fetch('/api/sessions');
+            const data = await response.json();
+
+            const sessions = Array.isArray(data) ? data : (data.data || []);
+            const tbody = document.querySelector('#sessionTable tbody');
+
+            // Clear existing content
+            tbody.innerHTML = '';
+
+            // Add each session row
+            sessions.forEach((session, index) => {
+                const sessionJson = JSON.stringify(session).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const profitLoss = parseFloat(session.profit_loss);
+                const eloChange = parseFloat(session.elo_change);
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50';
+                tr.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm cursor-pointer" onclick='showSessionDetail(${sessionJson})'>
+                    ${new Date(session.date).toLocaleDateString()}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm cursor-pointer" onclick='showSessionDetail(${sessionJson})'>
+                    $${session.small_blind}/$${session.big_blind}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm ${profitLoss >= 0 ? 'text-green-600' : 'text-red-600'} cursor-pointer" 
+                    onclick='showSessionDetail(${sessionJson})'>
+                    ${formatCurrency(profitLoss)}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm ${eloChange >= 0 ? 'text-green-600' : 'text-red-600'} cursor-pointer"
+                    onclick='showSessionDetail(${sessionJson})'>
+                    ${eloChange >= 0 ? '+' : ''}${eloChange.toFixed(1)}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                    <button onclick="confirmRemoveSession(${index})" 
+                            class="text-red-600 hover:text-red-800 focus:outline-none"
+                            data-index="${index}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+                tbody.appendChild(tr);
+            });
+        } catch (error) {
+            console.error('Error updating session table:', error);
+        }
+    };
+
+
+    // Update showSessionDetail to handle the session data correctly
+    const showSessionDetail = (session) => {
+        const modal = document.getElementById('sessionDetailModal');
+        const content = document.getElementById('sessionDetailContent');
+
+        if (!session) {
+            console.error('No session data provided');
+            return;
+        }
+
+        content.innerHTML = `
+        <div class="grid grid-cols-2 gap-6">
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Date</h3>
+                <p class="mt-1 text-lg">${new Date(session.date).toLocaleString()}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Location</h3>
+                <p class="mt-1 text-lg">${session.location}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Stakes</h3>
+                <p class="mt-1 text-lg">$${session.small_blind}/$${session.big_blind}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Duration</h3>
+                <p class="mt-1 text-lg">${session.duration} hours</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Buy In</h3>
+                <p class="mt-1 text-lg">${formatCurrency(session.buy_in)}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Cash Out</h3>
+                <p class="mt-1 text-lg">${formatCurrency(session.buy_out)}</p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Profit/Loss</h3>
+                <p class="mt-1 text-lg ${session.profit_loss >= 0 ? 'text-green-600' : 'text-red-600'}">
+                    ${formatCurrency(session.profit_loss)}
+                </p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">BB Won</h3>
+                <p class="mt-1 text-lg ${session.bb_won >= 0 ? 'text-green-600' : 'text-red-600'}">
+                    ${session.bb_won.toFixed(1)}
+                </p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">ELO Change</h3>
+                <p class="mt-1 text-lg ${session.elo_change >= 0 ? 'text-green-600' : 'text-red-600'}">
+                    ${session.elo_change >= 0 ? '+' : ''}${session.elo_change.toFixed(1)}
+                </p>
+            </div>
+            <div>
+                <h3 class="text-sm font-medium text-gray-500">Hourly Rate</h3>
+                <p class="mt-1 text-lg ${session.hourly_rate >= 0 ? 'text-green-600' : 'text-red-600'}">
+                    ${formatCurrency(session.hourly_rate)}/hr
+                </p>
+            </div>
+        </div>
+    `;
+
+        modal.classList.remove('hidden');
+    };
+
+    // Update analytics data
+    const updateAnalytics = async () => {
+        try {
+            const response = await fetch('/api/advanced_stats');
+            const data = await response.json();
+            const stats = data.data.advanced_stats;
+
+            // Update stakes stats
+            const stakesStatsBody = document.getElementById('stakesStatsBody');
+            if (stakesStatsBody) {
+                stakesStatsBody.innerHTML = Object.entries(stats.stake_distribution.avg_profit)
+                    .map(([stakes, avgProfit]) => {
+                        const [sb, bb] = stakes.split(',').map(parseFloat);
+                        const winRate = stats.stake_winrates[stakes]?.profit_loss || 0;
+                        return `
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${sb}/${bb}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${winRate.toFixed(1)}%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm ${stats.stake_distribution.total_profit[stakes] >= 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${formatCurrency(stats.stake_distribution.total_profit[stakes])}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                ${stats.stake_distribution.sessions[stakes]}
+                            </td>
+                        </tr>
+                    `;
+                    }).join('');
+            }
+
+            // Update location stats
+            const locationStatsBody = document.getElementById('locationStatsBody');
+            if (locationStatsBody) {
+                locationStatsBody.innerHTML = Object.entries(stats.location_stats.avg_profit)
+                    .map(([location, avgProfit]) => `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${location}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm ${stats.location_stats.total_profit[location] >= 0 ? 'text-green-600' : 'text-red-600'}">
+                            ${formatCurrency(stats.location_stats.total_profit[location])}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm ${avgProfit >= 0 ? 'text-green-600' : 'text-red-600'}">
+                            ${formatCurrency(avgProfit)}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            ${stats.location_stats.sessions[location]}
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Update timing stats
+            const timingStatsBody = document.getElementById('timingStatsBody');
+            if (timingStatsBody) {
+                const durationOrder = ['0-2h', '2-4h', '4-6h', '6-8h', '8h+'];
+                timingStatsBody.innerHTML = durationOrder
+                    .filter(duration => duration in stats.session_length_analysis.avg_profit)
+                    .map(duration => {
+                        const avgProfit = stats.session_length_analysis.avg_profit[duration];
+                        const sessions = stats.session_length_analysis.session_count[duration];
+                        const bbWon = stats.session_length_analysis.avg_bb_won[duration];
+                        return `
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${duration}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm ${avgProfit >= 0 ? 'text-green-600' : 'text-red-600'}">
+                                ${formatCurrency(avgProfit)}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${sessions}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${bbWon.toFixed(1)}</td>
+                        </tr>
+                    `;
+                    }).join('');
+            }
+        } catch (error) {
+            console.error('Error updating analytics:', error);
+        }
+    };
+
+    // Session removal functions
+    const confirmRemoveSession = (index) => {
+        if (confirm('Are you sure you want to remove this session? This action cannot be undone.')) {
+            removeSession(index);
+        }
+    };
+
+    const removeSession = async (index) => {
+        try {
+            console.log('Removing session at index:', index); // Debug log
+            const response = await fetch('/api/remove_session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ session_index: index })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                // Show success notification
+                const notification = document.createElement('div');
+                notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                notification.textContent = 'Session removed successfully';
+                document.body.appendChild(notification);
+
+                // Remove notification after 3 seconds
+                setTimeout(() => notification.remove(), 3000);
+
+                // Update displays
+                await Promise.all([
+                    updateStats(),
+                    updateSessionTable(),
+                    updateAnalytics()
+                ]);
+            } else {
+                alert('Failed to remove session');
+            }
+        } catch (error) {
+            console.error('Error removing session:', error);
+            alert('Error removing session');
+        }
+    };
+
+    // Handle form submission
+    document.getElementById('sessionForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitButton = document.getElementById('submitSessionBtn');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Saving...';
+
+        const formData = new FormData(e.target);
+        const sessionData = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/api/add_session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    datetime: sessionData.datetime,
+                    location: sessionData.location,
+                    small_blind: parseFloat(sessionData.small_blind),
+                    big_blind: parseFloat(sessionData.big_blind),
+                    buy_in: parseFloat(sessionData.buy_in),
+                    buy_out: parseFloat(sessionData.buy_out),
+                    duration: parseFloat(sessionData.duration)
+                })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                // Show success notification
+                const notification = document.createElement('div');
+                notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                notification.textContent = 'Session added successfully';
+                document.body.appendChild(notification);
+
+                // Remove notification after 3 seconds
+                setTimeout(() => notification.remove(), 3000);
+
+                hideAddSession();
+                await Promise.all([
+                    updateStats(),
+                    updateSessionTable(),
+                    updateAnalytics()
+                ]);
+            } else {
+                alert(result.error || 'Failed to add session');
+            }
+        } catch (error) {
+            console.error('Error adding session:', error);
+            alert('Error adding session');
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Save Session';
+        }
+    });
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            await Promise.all([
+                updateStats(),
+                updateSessionTable(),
+                updateAnalytics()
+            ]);
+
+            // Show stakes tab by default
+            showAnalyticsTab('stakes');
+
+            // Set up periodic updates
+            setInterval(async () => {
+                await Promise.all([
+                    updateStats(),
+                    updateSessionTable(),
+                    updateAnalytics()
+                ]);
+            }, 30000);
+        } catch (error) {
+            console.error('Error during initial data load:', error);
+        }
+    });
+
+    // Handle modal closing
+    window.addEventListener('click', (e) => {
+        const sessionDetailModal = document.getElementById('sessionDetailModal');
+        const addSessionModal = document.getElementById('addSessionModal');
+
+        if (e.target === sessionDetailModal) {
+            hideSessionDetail();
+        }
+        if (e.target === addSessionModal) {
+            hideAddSession();
+        }
+    });
+
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            hideSessionDetail();
+            hideAddSession();
+        }
+    });
+
+    // Auto-calculate big blind
+    document.querySelector('input[name="small_blind"]')?.addEventListener('change', (e) => {
+        const smallBlind = parseFloat(e.target.value);
+        if (!isNaN(smallBlind)) {
+            const bigBlindInput = document.querySelector('input[name="big_blind"]');
+            if (bigBlindInput) {
+                bigBlindInput.value = (smallBlind * 2).toFixed(2);
+            }
+        }
+    });
+</script>
+{% endblock %}

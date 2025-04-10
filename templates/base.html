@@ -1,0 +1,56 @@
+<!--
+base.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>{% block title %}Poker Tracker{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    {% block nav %}
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-cards text-indigo-600 text-2xl mr-2"></i>
+                    <div>
+                        <span class="text-xl font-semibold">Bet Flow</span>
+                        {% if session.username %}
+                        <p class = "text-sm text-gray-500"> {{session.username}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if session.username %}
+                <div class="flex items-center space-x-4">
+                    <a href = "{{url_for('home')}}" class = "text-gray-600 hover:text-gray-900">Home</a>
+                    <a href = "{{url_for('poker')}}" class = "text-gray-600 hover:text-gray-900">Poker</a>
+                    <a href = "{{url_for('sports')}}" class  = "text-gray-600 hover: text-gray-900">Sports</a>
+                    <button onclick="showAddSession()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-200">
+                        Add Session
+                    </button>
+                    <a href="/logout" class="text-gray-600 hover:text-gray-900">Logout</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    <footer class="bg-white py-4 border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-center text-sm text-gray-500">
+                By Vishal Ramvelu © 2025
+            </p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
