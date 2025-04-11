@@ -11,13 +11,6 @@
 * User account info storage - json
 * Basic tracking and analytics implementation
 
-### To Do
-1. Integrate broader betting tracker features
-2. Switch to SQL Database 
-3. Better account management and login/signup
-4. Visualization tools
-5. Host on web
-
 ### Build
 1. 
 ```
