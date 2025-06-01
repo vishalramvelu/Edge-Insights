@@ -13,7 +13,7 @@ into their overall performance.
 * User signup/login management + password encryption
 * User data storage - csv
 * User account info storage - json
-* Analytical tracking and interactive analytics implementation with intuitive display
+* Analytical tracking and analytics implementation with intuitive display
 
 ## Build
 1. 
