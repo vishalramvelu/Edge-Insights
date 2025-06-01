@@ -5,17 +5,17 @@ cumulative profit/loss over time. Info displayed in a clean interface to visuali
 ROI, win/loss ratios, and profit trends. User can filter, sort, and edit bets to gain insights
 into their overall performance. 
 
-### Framework
+## Framework
 * Backend: Python, Flask
 * Frontend: HTML/CSS, Tailwind, Vanilla Javascript
 
-### Features
+## Features
 * User signup/login management + password encryption
 * User data storage - csv
 * User account info storage - json
 * Analytical tracking and analytics implementation
 
-### Build
+## Build
 1. 
 ```
 pip3 install -r requirements.txt
