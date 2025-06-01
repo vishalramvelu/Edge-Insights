@@ -25,3 +25,5 @@ pip3 install -r requirements.txt
 ```
 python3 app.py
 ```
+## Contributing
+Contributions are welcome! If you'd like to enhance this project or report issues, please submit a pull request or open an issue.
