@@ -7,7 +7,7 @@ into their overall performance.
 
 ## Framework
 * Backend: Python, Flask
-* Frontend: HTML/CSS, Tailwind, Vanilla Javascript
+* Frontend: HTML, Tailwind CSS, Vanilla Javascript
 
 ## Features
 * User signup/login management + password encryption
