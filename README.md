@@ -1,4 +1,4 @@
-# Bet Flow
+# Edge Insights
 
 Full-stack web application that lets users have personalized tracking of their bets and monitor
 cumulative profit/loss over time. Info displayed in a clean interface to visualize analytics like
