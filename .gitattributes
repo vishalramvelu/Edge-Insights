@@ -1,1 +1,2 @@
-*.html linguist-vendored
+templates/base.html linguist-vendored
+templates/sports.html linguist-vendored
