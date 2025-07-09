@@ -2,3 +2,4 @@ templates/sports.html linguist-vendored
 templates/home.html linguist-vendored
 templates/base.html linguist-vendored
 templates/login.html linguist-vendored
+templates/register.html linguist-vendored
