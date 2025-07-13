@@ -6,7 +6,7 @@ ROI, win/loss ratios, and profit trends. User can filter, sort, and edit bets to
 into their overall performance. 
 
 ## Visit the Site
-Feel free to check out the [website here] (https://pokerbuddy.app/landing)
+Feel free to check out the [website here!](https://pokerbuddy.app/landing)
 
 <img width="1470" height="832" alt="Screenshot 2025-07-13 at 2 46 52 PM" src="https://github.com/user-attachments/assets/0970de42-67f2-4679-89c0-db6c0f50a6c7" />
 
